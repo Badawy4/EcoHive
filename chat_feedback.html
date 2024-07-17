@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Energy Consumption Advisor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000033;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #57a84e;
+            color: #FFFFFF;
+            position: relative;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px solid #E0E0E0;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #57a84e;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #4e9442;
+        }
+        .response {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .user {
+            color: #0000ff;
+        }
+        .assistant {
+            color: #008000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI Energy Consumption Advisor</h1>
+        <img src="Images/virtual_energy_advisor.png" alt="EcoHive Logo" class="logo">
+    </header>
+    <div class="container">
+        <form id="energy-form">
+            <div class="form-group">
+                <label for="question">Enter your energy consumption question:</label>
+                <input type="text" id="question" name="question" placeholder="Type your question here..." required>
+            </div>
+            <input type="submit" value="Get Advice">
+        </form>
+        <div id="response" class="response"></div>
+    </div>
+    <script>
+        const conversationHistory = [];
+
+        document.getElementById('energy-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const question = document.getElementById('question').value;
+            const apiKey = 'sk-proj-HVpYTKZi1bL39AHtNk5bT3BlbkFJgi2fi6R47YLiZhoksFMn'; // Replace with your OpenAI API key
+
+            // Add user's question to the conversation history
+            conversationHistory.push({ role: "user", content: question });
+
+            fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "gpt-3.5-turbo",
+                    messages: conversationHistory,
+                    max_tokens: 150,
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseDiv = document.getElementById('response');
+                if (data.choices && data.choices.length > 0) {
+                    const reply = data.choices[0].message.content.trim();
+
+                    // Display the user's question
+                    const userMessage = document.createElement('p');
+                    userMessage.className = 'message user';
+                    userMessage.textContent = `You: ${question}`;
+                    responseDiv.appendChild(userMessage);
+
+                    // Display the assistant's response
+                    const assistantMessage = document.createElement('p');
+                    assistantMessage.className = 'message assistant';
+                    assistantMessage.textContent = `Energy Advisor: ${reply}`;
+                    responseDiv.appendChild(assistantMessage);
+
+                    // Add assistant's response to the conversation history
+                    conversationHistory.push({ role: "assistant", content: reply });
+                } else {
+                    const errorMessage = document.createElement('p');
+                    errorMessage.className = 'message error';
+                    errorMessage.textContent = 'No advice found.';
+                    responseDiv.appendChild(errorMessage);
+                }
+
+                // Scroll to the bottom of the response div to show the latest messages
+                responseDiv.scrollTop = responseDiv.scrollHeight;
+            })
+            .catch(error => {
+                const errorMessage = document.createElement('p');
+                errorMessage.className = 'message error';
+                errorMessage.textContent = `Error: ${error.message}`;
+                document.getElementById('response').appendChild(errorMessage);
+            });
+
+            // Clear the input field
+            document.getElementById('question').value = '';
+        });
+    </script>
+</body>
+</html>

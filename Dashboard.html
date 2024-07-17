@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to EcoHive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000033;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #57a84e; /* Update this with the exact green from the logo */
+            color: #FFFFFF;
+            position: relative;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 40px auto;
+            max-width: 800px; /* Adjust as needed */
+        }
+        .box {
+            width: 100%;
+            height: 200px;
+            background-color: #57a84e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-weight: bold;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            transition: background-color 0.3s, color 0.3s, border 0.3s;
+            border: 2px solid transparent;
+        }
+        .box:hover {
+            background-color: #FFFFFF;
+            color: #57a84e;
+            border: 2px solid #57a84e;
+        }
+        .box-span-2 {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Virtual Energy Advisor</h1>
+        <img src="images/virtual_energy_advisor.png" alt="EcoHive Logo" class="logo">
+    </header>
+    <div class="container">
+        <a href="leaderboard.html" class="box">Leaderboard and Badges</a>
+        <a href="energy_production.html" class="box">Energy Production with Forecast</a>
+        <a href="community.html" class="box">Community</a>
+        <a href="energy_consumption.html" class="box">Energy Consumption with Forecast</a>
+        <a href="chat_feedback.html" class="box box-span-2">AI Feedback</a>
+    </div>
+</body>
+</html>

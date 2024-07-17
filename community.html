@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Energy Usage Consensus Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000033;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #57a84e;
+            color: #FFFFFF;
+            position: relative;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        h2 {
+            color: #57a84e;
+        }
+        .forum, .voting, .education, .incentives, .updates {
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            background-color: #F9F9F9;
+        }
+        .post {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .post img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .vote-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .vote-buttons button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .reply-input, .question-input, .decision-input {
+            margin-top: 20px;
+            display: block;
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .option-input {
+            display: block;
+            margin-top: 10px;
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .reply-input {
+            margin-left: 60px;
+        }
+        .reply-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #57a84e;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-left: 60px;
+        }
+        .post-button, .decision-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #57a84e;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .replies {
+            margin-left: 60px;
+        }
+        .post-separator {
+            margin-bottom: 30px;
+        }
+        .badge {
+            width: 25px;
+            height: 25px;
+        }
+        a {
+            color: blue; /* Default link color */
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: blue; /* Visited link color */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Community Energy Usage Consensus Platform</h1>
+        <img src="images/virtual_energy_advisor.png" alt="EcoHive Logo" class="logo">
+    </header>
+    <div class="container">
+        <!-- Interactive Discussion Forums -->
+        <div class="section forum">
+            <h2>Interactive Discussion Forums</h2>
+            <div id="forum-posts">
+                <div class="post">
+                    <img src="images/Max.jpg" alt="Max's Picture">
+                    <div>
+                        <strong>Max:</strong> Anyone else experiencing high energy consumption this past week?
+                    </div>
+                </div>
+                <div class="replies"></div>
+                <textarea class="reply-input" placeholder="Reply to Max..."></textarea>
+                <button class="reply-button" onclick="postReply(this)">Reply</button>
+                <div class="post-separator"></div>
+            </div>
+            <textarea class="question-input" placeholder="Post a new question..."></textarea>
+            <button class="post-button" style="margin-left: 0;" onclick="postQuestion()">Post</button>
+        </div>
+
+        <!-- Collaborative Decision Making -->
+        <div class="section voting">
+            <h2>Collaborative Decision Making</h2>
+            <div id="voting-posts">
+                <div class="post">
+                    <img src="images/Sarah.jpg" alt="Sarah's Picture">
+                    <div>
+                        <strong>Sarah:</strong> Should we buy solar panels?
+                        <div class="vote-buttons">
+                            <button onclick="vote(this, 'yes')">Yes (<span id="yes-votes">2</span>)</button>
+                            <button onclick="vote(this, 'no')">No (<span id="no-votes">2</span>)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <textarea class="decision-input" placeholder="Post a new decision topic..."></textarea>
+            <div id="options-container">
+                <input type="text" class="option-input" placeholder="Option 1">
+                <input type="text" class="option-input" placeholder="Option 2">
+            </div>
+            <button class="decision-button" style="margin-left: 0;" onclick="addOption()">Add Option</button>
+            <button class="decision-button" style="margin-left: 0;" onclick="postDecision()">Post Decision</button>
+        </div>
+
+        <!-- Educational Resources -->
+        <div class="section education">
+            <h2>Educational Resources</h2>
+            <ul>
+                <li><a href="https://www.energy.gov/eere/education/articles/download-copy-energy-literacy-framework" target="_blank" style="color: blue;">Energy Literacy Program 1</a></li>
+                <li><a href="https://www.energy.gov/energysaver/energy-saver" target="_blank" style="color: blue;">Energy Efficiency Tips</a></li>
+                <li><a href="https://www.energy.gov/eere/renewable-energy" target="_blank" style="color: blue;">Renewable Energy Resources</a></li>
+            </ul>
+        </div>
+
+        <!-- Incentives/ Rewards -->
+        <div class="section incentives">
+            <h2>Incentives and Rewards</h2>
+            <ul>
+                <li>Max: Least Energy Consumption of the Week <img src="images/Crown.png" alt="Badge" class="badge"></li>
+                <li>Sarah: Most Efficient Energy Usage <img src="images/Crown.png" alt="Badge" class="badge"></li>
+                <li>Elli: Best Community Contribution <img src="images/Crown.png" alt="Badge" class="badge"></li>
+            </ul>
+        </div>
+
+        <!-- Real-Time Community Updates -->
+        <div class="section updates">
+            <h2>Real-Time Community Updates</h2>
+            <p>Stay informed about energy usage, policy changes, and their impacts.</p>
+            <h3>Latest News</h3>
+            <p>1. <strong>New Renewable Energy Policies Implemented:</strong> Recent policy changes aim to boost the use of renewable energy sources. <a href="https://www.example.com/new-renewable-energy-policies" target="_blank" style="color: blue;">Read more</a></p>
+            <p>2. <strong>Community Energy Usage Report:</strong> The latest report shows a 10% reduction in energy usage this quarter. <a href="https://www.example.com/community-energy-usage-report" target="_blank" style="color: blue;">Read more</a></p>
+            <p>3. <strong>Incentives for Energy Efficiency:</strong> New incentives have been introduced to encourage energy-efficient practices. <a href="https://www.example.com/incentives-energy-efficiency" target="_blank" style="color: blue;">Read more</a></p>
+        </div>
+    </div>
+
+    <script>
+        function postReply(button) {
+            const replyInput = button.previousElementSibling;
+            const replyText = replyInput.value;
+            if (replyText) {
+                const replyDiv = document.createElement('div');
+                replyDiv.className = 'post';
+                replyDiv.innerHTML = `
+                    <img src="images/Me.jpg" alt="Your Picture">
+                    <div>
+                        <strong>You:</strong> ${replyText}
+                    </div>
+                `;
+                button.parentElement.querySelector('.replies').appendChild(replyDiv);
+                replyInput.value = '';
+            }
+        }
+
+        function postQuestion() {
+            const questionText = document.querySelector('.question-input').value;
+            if (questionText) {
+                const postDiv = document.createElement('div');
+                postDiv.innerHTML = `
+                    <div class="post">
+                        <img src="images/Me.jpg" alt="Your Picture">
+                        <div>
+                            <strong>You:</strong> ${questionText}
+                        </div>
+                    </div>
+                    <div class="replies"></div>
+                    <textarea class="reply-input" placeholder="Reply to your post..."></textarea>
+                    <button class="reply-button" onclick="postReply(this)">Reply</button>
+                    <div class="post-separator"></div>
+                `;
+                const forumPosts = document.getElementById('forum-posts');
+                forumPosts.appendChild(postDiv);
+                document.querySelector('.question-input').value = '';
+            }
+        }
+
+        function vote(button, option) {
+            const optionVotes = button.querySelector(`span`);
+            const parentPost = button.closest('.post');
+            const previouslyVoted = parentPost.querySelector('.voted');
+
+            if (previouslyVoted) {
+                const prevVotes = previouslyVoted.querySelector('span');
+                prevVotes.textContent = parseInt(prevVotes.textContent) - 1;
+                previouslyVoted.classList.remove('voted');
+            }
+
+            optionVotes.textContent = parseInt(optionVotes.textContent) + 1;
+            button.classList.add('voted');
+        }
+
+        function addOption() {
+            const optionsContainer = document.getElementById('options-container');
+            const newOption = document.createElement('input');
+            newOption.type = 'text';
+            newOption.className = 'option-input';
+            newOption.placeholder = `Option ${optionsContainer.children.length + 1}`;
+            optionsContainer.appendChild(newOption);
+        }
+
+        function postDecision() {
+            const decisionText = document.querySelector('.decision-input').value;
+            const options = document.querySelectorAll('.option-input');
+            if (decisionText && options.length > 0) {
+                const decisionDiv = document.createElement('div');
+                decisionDiv.className = 'post';
+                decisionDiv.innerHTML = `
+                    <img src="images/Me.jpg" alt="Your Picture">
+                    <div>
+                        <strong>You:</strong> ${decisionText}
+                        <div class="vote-buttons">
+                            ${Array.from(options).map((option, index) => 
+                                `<button onclick="vote(this, 'option${index + 1}')">${option.value} (<span id="option${index + 1}-votes">0</span>)</button>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('voting-posts').appendChild(decisionDiv);
+                document.querySelector('.decision-input').value = '';
+                document.getElementById('options-container').innerHTML = '';
+                addOption();
+                addOption();
+            }
+        }
+    </script>
+</body>
+</html>

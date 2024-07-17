@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard and Badges</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000033;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #57a84e;
+            color: #FFFFFF;
+            position: relative;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .view-switcher {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .view-switcher button {
+            background-color: #57a84e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .view-switcher button.active {
+            background-color: white;
+            color: #57a84e;
+            border: 2px solid #57a84e;
+        }
+        .leaderboard {
+            margin-bottom: 20px;
+        }
+        .leaderboard ul {
+            list-style: none;
+            padding: 0;
+        }
+        .leaderboard li {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            background-color: #F9F9F9;
+        }
+        .leaderboard img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 3px solid transparent;
+        }
+        .gold {
+            border-color: gold !important;
+        }
+        .silver {
+            border-color: silver !important;
+        }
+        .bronze {
+            border-color: #cd7f32 !important;
+        }
+        .chart-container {
+            margin: 20px auto;
+            width: 80%;
+        }
+        .chart-title {
+            text-align: center;
+            color: #57a84e;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        h2 {
+            color: #57a84e;
+        }
+        .badges {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #FFFFFF;
+        }
+        .badges ul {
+            list-style: none;
+            padding: 0;
+        }
+        .badges li {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .badges img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+            margin-right: 20px;
+        }
+        .community {
+            margin-top: 20px;
+        }
+        .community ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        .community li {
+            margin: 10px;
+            text-align: center;
+        }
+        .community img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .note {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Leaderboard and Badges</h1>
+        <img src="images/virtual_energy_advisor.png" alt="EcoHive Logo" class="logo">
+    </header>
+    <div class="container">
+        <div class="view-switcher">
+            <button id="weeklyView" onclick="switchView('weekly')">Weekly</button>
+            <button id="monthlyView" onclick="switchView('monthly')">Monthly</button>
+            <button id="yearlyView" onclick="switchView('yearly')">Yearly</button>
+        </div>
+
+        <div class="leaderboard" id="leaderboard">
+            <h2>Leaderboard</h2>
+            <ul id="leaderboardList">
+                <!-- Leaderboard will be generated here -->
+            </ul>
+        </div>
+
+        <div class="chart-title">Energy Consumption</div>
+        <div class="chart-container">
+            <canvas id="leaderboardChart"></canvas>
+        </div>
+
+        <div class="note" id="note"></div>
+        <div class="note">* Energy Consumption values are calculated per person in the household</div>
+
+        <div class="badges">
+            <h2>Badges</h2>
+            <ul>
+                <li>
+                    <img src="images/Max.jpg" alt="Max's Picture">
+                    Max: Least Energy Consumption of the Week
+                    <img src="images/Crown.png" alt="Badge" class="badge">
+                </li>
+                <li>
+                    <img src="images/Sarah.jpg" alt="Sarah's Picture">
+                    Sarah: Most Efficient Energy Usage
+                    <img src="images/Crown.png" alt="Badge" class="badge">
+                </li>
+                <li>
+                    <img src="images/Elli.jpg" alt="Elli's Picture">
+                    Elli: Best Community Contribution
+                    <img src="images/Crown.png" alt="Badge" class="badge">
+                </li>
+            </ul>
+        </div>
+
+        <div class="community">
+            <h2>Community Members</h2>
+            <ul>
+                <li>
+                    <img src="images/Me.jpg" alt="Badawy">
+                    <p>Badawy</p>
+                </li>
+                <li>
+                    <img src="images/Max.jpg" alt="Max">
+                    <p>Max</p>
+                </li>
+                <li>
+                    <img src="images/Elli.jpg" alt="Elli">
+                    <p>Elli</p>
+                </li>
+                <li>
+                    <img src="images/Sarah.jpg" alt="Sarah">
+                    <p>Sarah</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const users = ['Badawy', 'Max', 'Elli', 'Sarah'];
+        const userImages = {
+            'Badawy': 'images/Me.jpg',
+            'Max': 'images/Max.jpg',
+            'Elli': 'images/Elli.jpg',
+            'Sarah': 'images/Sarah.jpg'
+        };
+
+        function generateRandomData(type) {
+            let data = {};
+            users.forEach(user => {
+                let yearlyValue = Math.floor(Math.random() * 400) + 3100; // 3100 to 3500 kWh
+                if (type === 'yearly') {
+                    data[user] = yearlyValue;
+                } else if (type === 'monthly') {
+                    data[user] = (yearlyValue / 12).toFixed(2); // monthly value
+                } else if (type === 'weekly') {
+                    data[user] = (yearlyValue / 52).toFixed(2); // weekly value
+                }
+            });
+            return data;
+        }
+
+        function updateLeaderboard(type) {
+            const userScores = generateRandomData(type);
+            const sortedUsers = Object.keys(userScores).sort((a, b) => userScores[a] - userScores[b]);
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '';
+
+            sortedUsers.forEach((user, index) => {
+                const listItem = document.createElement('li');
+                let borderClass = '';
+                if (index === 0) borderClass = 'gold';
+                else if (index === 1) borderClass = 'silver';
+                else if (index === 2) borderClass = 'bronze';
+                listItem.innerHTML = `<img src="${userImages[user]}" alt="${user}" class="${borderClass}"> ${user}: <span> ${userScores[user]} </span> kWh`;
+                leaderboardList.appendChild(listItem);
+            });
+
+            renderChart(type, userScores);
+            updateNote(type);
+        }
+
+        function renderChart(type, userScores) {
+            const ctx = document.getElementById('leaderboardChart').getContext('2d');
+            const scores = Object.values(userScores);
+
+            if (leaderboardChart) {
+                leaderboardChart.destroy();
+            }
+
+            leaderboardChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(userScores),
+                    datasets: [{
+                        label: 'Energy Consumption',
+                        data: scores,
+                        backgroundColor: ['#57a84e', '#57a84e', '#57a84e', '#57a84e'],
+                        borderColor: ['#57a84e', '#57a84e', '#57a84e', '#57a84e'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateNote(view) {
+            const note = document.getElementById('note');
+            let viewText;
+            if (view === 'weekly') {
+                viewText = 'week';
+            } else if (view === 'monthly') {
+                viewText = 'month';
+            } else if (view === 'yearly') {
+                viewText = 'year';
+            }
+            note.textContent = `* These values are for the last ${viewText}`;
+        }
+
+        function switchView(view) {
+            localStorage.setItem('currentView', view);
+            updateLeaderboard(view);
+            document.getElementById('weeklyView').classList.toggle('active', view === 'weekly');
+            document.getElementById('monthlyView').classList.toggle('active', view === 'monthly');
+            document.getElementById('yearlyView').classList.toggle('active', view === 'yearly');
+        }
+
+        let leaderboardChart;
+        const savedView = localStorage.getItem('currentView') || 'weekly';
+        switchView(savedView);
+    </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Consumption with Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000033;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #57a84e;
+            color: #FFFFFF;
+            position: relative;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .chart-container {
+            margin: 20px auto;
+            width: 80%;
+        }
+        .box {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 10px;
+            background-color: #F9F9F9;
+        }
+        .view-switcher {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .view-switcher button {
+            background-color: #57a84e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .view-switcher button.active {
+            background-color: white;
+            color: #57a84e;
+            border: 2px solid #57a84e;
+        }
+        h2 {
+            color: #57a84e;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Energy Consumption with Forecast</h1>
+        <img src="images/virtual_energy_advisor.png" alt="EcoHive Logo" class="logo">
+    </header>
+    <div class="container">
+        <div class="view-switcher">
+            <button id="weeklyView" onclick="switchView('weekly')">Weekly</button>
+            <button id="monthlyView" onclick="switchView('monthly')">Monthly</button>
+            <button id="yearlyView" onclick="switchView('yearly')">Yearly</button>
+        </div>
+        <div class="box">
+            <h2>Energy Consumption</h2>
+            <div class="chart-container">
+                <canvas id="energyChart"></canvas>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Forecasted Energy Consumption</h2>
+            <div class="chart-container">
+                <canvas id="forecastChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function getLast7Days() {
+            const days = [];
+            const today = new Date();
+            for (let i = 6; i >= 0; i--) {
+                const day = new Date(today);
+                day.setDate(today.getDate() - i);
+                const dayString = day.toLocaleDateString('en-US', { weekday: 'long' });
+                const dateString = day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                days.push({ day: dayString, date: dateString });
+            }
+            return days;
+        }
+
+        function getEnergyConsumptionData() {
+            const data = [];
+            for (let i = 0; i < 6; i++) {
+                data.push(Math.floor(Math.random() * 10) + 20); 
+            }
+            const today = new Date();
+            const hoursPassed = today.getHours();
+            const todayConsumption = (hoursPassed / 24) * (Math.floor(Math.random() * 10) + 20);
+            data.push(todayConsumption.toFixed(2));
+            return data;
+        }
+
+        function calculateAverage(data) {
+            const sum = data.reduce((acc, value) => acc + parseFloat(value), 0);
+            return sum / data.length;
+        }
+
+        function getForecastData(currentData, type) {
+            const forecast = [];
+            const completeData = currentData.slice(0, -1); // disregard the last (incomplete) bar
+            const averageValue = calculateAverage(completeData);
+            const variation = averageValue * 0.05; // adding a small variation to simulate forecast
+
+            if (type === 'weekly') {
+                for (let i = 0; i < 7; i++) {
+                    forecast.push((averageValue + (Math.random() * variation - variation / 2)).toFixed(2));
+                }
+            } else if (type === 'monthly') {
+                for (let i = 0; i < 4 * 7; i++) {
+                    forecast.push((averageValue + (Math.random() * variation - variation / 2)).toFixed(2));
+                }
+            } else if (type === 'yearly') {
+                const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                for (let month = 0; month < 12; month++) {
+                    for (let day = 0; day < daysInMonth[month]; day++) {
+                        forecast.push((averageValue + (Math.random() * variation - variation / 2)).toFixed(2));
+                    }
+                }
+            }
+
+            return forecast;
+        }
+
+        function getNext7Days() {
+            const days = [];
+            const today = new Date();
+            for (let i = 1; i <= 7; i++) {
+                const day = new Date(today);
+                day.setDate(today.getDate() + i);
+                const dayString = day.toLocaleDateString('en-US', { weekday: 'long' });
+                const dateString = day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                days.push({ day: dayString, date: dateString });
+            }
+            return days;
+        }
+
+        function getLast4Weeks() {
+            const weeks = [];
+            const today = new Date();
+            const endOfWeek = new Date(today); 
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(endOfWeek.getDate() - 6);
+
+            for (let i = 0; i < 4; i++) {
+                const weekStart = new Date(startOfWeek);
+                weekStart.setDate(weekStart.getDate() - (7 * i));
+                const weekEnd = new Date(endOfWeek);
+                weekEnd.setDate(weekEnd.getDate() - (7 * i));
+
+                const weekString = `Week ${4 - i}`;
+                const startDateString = weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const endDateString = weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+                weeks.unshift({ week: weekString, date: `${startDateString} - ${endDateString}` });
+            }
+            return weeks;
+        }
+
+        function getWeeklyEnergyConsumptionData() {
+            const data = [];
+            for (let i = 0; i < 4; i++) {
+                data.push(Math.floor(Math.random() * 50) + 150);
+            }
+            return data;
+        }
+
+        function getNext4Weeks() {
+            const weeks = [];
+            const today = new Date();
+            for (let i = 0; i < 4; i++) {
+                const weekStart = new Date(today);
+                weekStart.setDate(today.getDate() + 1 + (i * 7));
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                const weekString = `Week ${i + 1}`;
+                const startDateString = weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const endDateString = weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                weeks.push({ week: weekString, date: `${startDateString} - ${endDateString}` });
+            }
+            return weeks;
+        }
+
+        function getLast12Months() {
+            const months = [];
+            const today = new Date();
+            for (let i = 11; i >= 0; i--) {
+                const month = new Date(today);
+                month.setMonth(today.getMonth() - i);
+                const monthString = month.toLocaleDateString('en-US', { month: 'long' });
+                const yearString = month.getFullYear();
+                months.push({ month: monthString, year: yearString });
+            }
+            return months;
+        }
+
+        function getYearlyEnergyConsumptionData() {
+            const data = [];
+            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            const today = new Date();
+            for (let month = 0; month < 11; month++) {
+                const days = daysInMonth[month];
+                data.push((days / daysInMonth[today.getMonth()]) * (Math.floor(Math.random() * 200) + 600));
+            }
+            const daysPassed = today.getDate();
+            const currentMonthConsumption = (daysPassed / daysInMonth[today.getMonth()]) * (Math.floor(Math.random() * 200) + 600);
+            data.push(currentMonthConsumption.toFixed(2));
+            return data;
+        }
+
+        function getNext12Months() {
+            const months = [];
+            const today = new Date();
+            for (let i = 1; i <= 12; i++) {
+                const month = new Date(today);
+                month.setMonth(today.getMonth() + i);
+                const monthString = month.toLocaleDateString('en-US', { month: 'long' });
+                const yearString = month.getFullYear();
+                months.push({ month: monthString, year: yearString });
+            }
+            return months;
+        }
+
+        function formatLabels(item) {
+            if (item.day && item.date) {
+                return `${item.day}\n${item.date}`;
+            } else if (item.week && item.date) {
+                return `${item.week}\n${item.date}`;
+            } else {
+                return `${item.month} ${item.year}`;
+            }
+        }
+
+        function renderChart(type) {
+            let labels, data, forecastLabels, forecastData;
+            const ctx = document.getElementById('energyChart').getContext('2d');
+            const forecastCtx = document.getElementById('forecastChart').getContext('2d');
+
+            if (type === 'weekly') {
+                labels = getLast7Days();
+                data = getEnergyConsumptionData();
+                forecastLabels = getNext7Days();
+                forecastData = getForecastData(data, 'weekly');
+            } else if (type === 'monthly') {
+                labels = getLast4Weeks();
+                data = getWeeklyEnergyConsumptionData();
+                forecastLabels = getNext4Weeks();
+                forecastData = getForecastData(data, 'monthly');
+            } else if (type === 'yearly') {
+                labels = getLast12Months();
+                data = getYearlyEnergyConsumptionData();
+                forecastLabels = getNext12Months();
+                forecastData = getForecastData(data, 'yearly');
+            }
+
+            if (energyChart) {
+                energyChart.destroy();
+                forecastChart.destroy();
+            }
+
+            energyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.map(formatLabels),
+                    datasets: [{
+                        label: 'Energy Consumption (kWh)',
+                        data: data,
+                        backgroundColor: data.map((value, index) => {
+                            if (type === 'monthly' && index === data.length - 1) {
+                                return '#57a84e'; // Green for the last bar in monthly view
+                            } else if (index === data.length - 1) {
+                                return 'rgba(128, 128, 128, 0.7)';
+                            } else {
+                                return '#57a84e';
+                            }
+                        }),
+                        borderColor: data.map((value, index) => (index === data.length - 1) ? 'rgba(128, 128, 128, 1)' : '#57a84e'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 20,
+                                padding: 10,
+                                multiKeyBackground: 'rgba(0,0,0,0)'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value, index, ticks) {
+                                    const label = this.getLabelForValue(value);
+                                    return label.split('\n');
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            forecastChart = new Chart(forecastCtx, {
+                type: 'bar',
+                data: {
+                    labels: forecastLabels.map(formatLabels),
+                    datasets: [{
+                        label: 'Forecasted Energy Consumption (kWh)',
+                        data: forecastData,
+                        backgroundColor: '#57a84e',
+                        borderColor: '#57a84e',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 20,
+                                padding: 10,
+                                multiKeyBackground: 'rgba(0,0,0,0)'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function(value, index, ticks) {
+                                    const label = this.getLabelForValue(value);
+                                    return label.split('\n');
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function switchView(view) {
+            localStorage.setItem('currentView', view);
+            renderChart(view);
+            document.getElementById('weeklyView').classList.toggle('active', view === 'weekly');
+            document.getElementById('monthlyView').classList.toggle('active', view === 'monthly');
+            document.getElementById('yearlyView').classList.toggle('active', view === 'yearly');
+        }
+
+        let energyChart, forecastChart;
+        const savedView = localStorage.getItem('currentView') || 'weekly';
+        switchView(savedView);
+    </script>
+</body>
+</html>

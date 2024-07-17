@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - EcoHive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000033;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #57a84e; /* Update this with the exact green from the logo */
+            color: #FFFFFF;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .logo {
+            width: 80px;
+            height: auto;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+        .content {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1;
+            color: #57a84e; /* Matching green color */
+        }
+        .subtitle {
+            font-size: 26px;
+            font-weight: normal;
+            color: #555555;
+        }
+        .eco {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px; /* Adjust the overall size */
+        }
+        .eco img {
+            width: 48px; /* Adjust the size of the logo to match the text */
+            height: auto;
+            margin: 0 10px;
+        }
+        .hive {
+            margin-left: 1.1em; /* Adjust to position H directly under C */
+            font-size: 48px; /* Ensure font size matches ECO */
+            font-weight: bold;
+        }
+        .vision-section, .circle-section, .why-section, .communities-section, .commitment-section, .team-section, .connect-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .vision-title, .circle-title, .why-title, .communities-title, .commitment-title, .team-title, .connect-title, .value-proposition-title {
+            font-size: 32px; /* Smaller title font size */
+            font-weight: bold;
+            margin-bottom: 5px; /* Reduce space below title */
+            color: #57a84e;
+        }
+        .vision-content, .circle-content, .why-content, .communities-content, .value-proposition-content {
+            font-size: 20px; /* Smaller content font size */
+            color: #333333;
+        }
+        .highlight-green {
+            color: #57a84e;
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #57a84e;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            border: 2px solid #57a84e;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .button:hover {
+            background-color: #FFFFFF;
+            color: #57a84e;
+        }
+        .button-container {
+            text-align: center; /* Center the button */
+        }
+        .communities-subtitle {
+            margin-top: -5px; /* Adjust the space between the title and subtitle */
+            font-style: italic;
+        }
+        .commitment-images, .team-images {
+            display: flex;
+            justify-content: space-evenly; /* Adjust to space-evenly for closer spacing */
+            align-items: center;
+            margin-top: 20px;
+        }
+        .commitment-images img {
+            width: 15%; /* Adjust the width of each image */
+            height: auto;
+            border-radius: 10px; /* Optional: add some border radius for rounded corners */
+        }
+        .team-images img {
+            width: 22%; /* Adjust the width of each image */
+            height: auto;
+            border-radius: 10px; /* Optional: add some border radius for rounded corners */
+        }
+        .team-member {
+            text-align: center;
+        }
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .team-member h3 {
+            margin: 10px 0 5px;
+            font-size: 18px;
+            color: #57a84e;
+        }
+        .team-member p {
+            margin: 0;
+            font-size: 16px;
+            color: #000033;
+        }
+        .connect-section {
+            background-color: #57a84e; /* Normal green shade */
+            color: #FFFFFF;
+            padding: 40px 20px; /* Increase padding for better spacing */
+        }
+        .connect-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Align items at the start */
+            flex-wrap: wrap;
+            margin-top: 10px; /* Reduce margin-top for closer spacing */
+        }
+        .connect-item {
+            margin: 20px;
+            flex: 1 1 200px; /* Flex properties for responsiveness */
+        }
+        .connect-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px; /* Reduce space below title */
+            text-align: center;
+            color: #FFFFFF;
+        }
+        .connect-item h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .connect-item p, .connect-item a {
+            font-size: 18px;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+        .value-proposition-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Home</h1>
+        <img src="images/virtual_energy_advisor.png" alt="EcoHive Logo" class="logo">
+    </header>
+    <div class="content">
+        <div class="title">
+            <div class="eco">
+                EC<img src="images/virtual_energy_advisor.png" alt="Logo">
+            </div>
+            <span class="hive">HIVE</span>
+        </div>
+        <div class="subtitle">Empowering Communities to Master Energy with Insight and Innovation</div>
+    </div>
+    <div class="vision-section">
+        <div class="vision-title">Our Vision</div>
+        <div class="vision-content">
+            Embracing <span class="highlight-green">digital transformation</span>, we commit to overcoming ​the challenges faced by early adopter energy communities, driving the ​<span class="highlight-green">transition towards renewable energies</span> and thus a ​<span class="highlight-green">sustainable future</span><span class="highlight-green">.</span>
+        </div>
+    </div>
+    <div class="circle-section">
+        <div class="circle-title">We Close the Circle</div>
+        <div class="circle-content">
+            EcoHive offers your energy community an ​<span class="highlight-green">advanced platform for efficient energy ​management.</span> Monitor energy ​consumption forecasts and current usage ​for your household and community. Get ​visual feedback on sustainability levels, ​live updates on photovoltaic energy ​generation, and AI-driven tips to reduce ​energy use—all in one place!
+        </div>
+        <div class="button-container">
+            <a href="Dashboard.html" class="button">Discover EcoHive!</a>
+        </div>
+    </div>
+    <div class="why-section">
+        <div class="why-title">Why Choose EcoHive</div>
+        <div class="why-content">
+            <span class="highlight-green">EcoHive</span> is your trusted partner in navigating the complexities of community energy management, offering <span class="highlight-green">robust tools</span> and a <span class="highlight-green">supportive platform</span> to ensure a <span class="highlight-green">sustainable</span> and <span class="highlight-green">efficient</span> energy future.
+        </div>
+    </div>
+    <div class="communities-section">
+        <div class="communities-title">Energy Communities</div>
+        <div class="communities-subtitle">- A Backbone of Sustainable Energy -</div>
+        <div class="communities-content">
+            <p><span class="highlight-green">Energy communities</span> are groups of people who collaborate to produce, consume, manage, and share energy within a localized area. These communities often rely on renewable resources, such as <span class="highlight-green">solar</span>, wind, and biomass energy, to generate power.</p>
+            <p>By working together, members of energy communities can achieve:</p>
+            <ul>
+                <li><span class="highlight-green">Reduced Carbon Footprint:</span> Minimize environmental impact through collective action.</li>
+                <li><span class="highlight-green">Lower Energy Cost:</span> Share resources and reduce individual energy expenses.</li>
+                <li><span class="highlight-green">Greater Energy Efficiency:</span> Optimize energy use and increase overall efficiency.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="value-proposition-section">
+        <div class="value-proposition-title">Our Value Proposition</div>
+        <div class="value-proposition-content">
+            <p>Unite your community with a platform designed to enhance energy efficiency through <span class="highlight-green">collaboration</span>, enriched with practical guidance and <span class="highlight-green">real-time insights</span><span class="highlight-green">.</span></p>
+        </div>
+    </div>
+    <div class="commitment-section">
+        <div class="commitment-title">Our Commitment to a Sustainable Future</div>
+        <div class="commitment-images">
+            <img src="images/Climate_Action.jpg">
+            <img src="images/Sustainable_Cities_And_Communities.jpg">
+            <img src="images/Affordable_And_Clean_Energy.jpg">
+            <img src="images/Responsible_Consumption_And_Production.jpg">
+        </div>
+    </div>
+    <div class="team-section">
+        <div class="team-title">Meet Team EcoHive!</div>
+        <div class="team-images">
+            <div class="team-member">
+                <img src="images/Me.jpg" alt="Abdelrahman Elbadawi">
+                <h3>Abdelrahman Elbadawi</h3>
+                <p>Lead Developer</p>
+            </div>
+            <div class="team-member">
+                <img src="images/Sarah.jpg" alt="Sarah Wellens">
+                <h3>Sarah Wellens</h3>
+                <p>Marketing and Strategy Specialist</p>
+            </div>
+            <div class="team-member">
+                <img src="images/Elli.jpg" alt="Elisabeth-Mey Wiemann">
+                <h3>Elisabeth-Mey Wiemann</h3>
+                <p>UX/UI Designer</p>
+            </div>
+            <div class="team-member">
+                <img src="images/Max.jpg" alt="Maximilian Moulé">
+                <h3>Maximilian Moulé</h3>
+                <p>Project Manager</p>
+            </div>
+        </div>
+    </div>
+    <div class="connect-section">
+        <div class="connect-title">Connect with us!</div>
+        <div class="connect-content">
+            <div class="connect-item">
+                <h3>MAIN OFFICE</h3>
+                <p>Freddie-Mercury-Straße 5<br>80797 München<br>Germany<br>(0178) 8186755</p>
+                <p><a href="mailto:hello@ecohive.com">hello@ecohive.com</a></p>
+            </div>
+            <div class="connect-item">
+                <h3>SOCIAL MEDIA</h3>
+                <p>Facebook<br>Instagram<br>Twitter</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
